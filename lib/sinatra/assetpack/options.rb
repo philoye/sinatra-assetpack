@@ -238,16 +238,21 @@ module Sinatra
       # Returns nil if a file is not found.
       # TODO: consolidate with local_file_for
       def dyn_local_file_for(requested_file, from)
-        # Remove extension
         file = requested_file
         extension = ''
-
-        file.sub(/^(.*)(\.[^\.]+)$/) { file, extension = $1, $2 }
+        file.sub(/^(.*)\.([^\.]+)$/) { file, extension = $1, $2 }
 
         # Remove cache-buster (/js/app.28389.js => /js/app)
-        file = $1  if file =~ /^(.*)\.[0-9]+$/
+        file = $1 if file =~ /^(.*)\.[0-9]+$/
 
-        Dir[File.join(app.root, from, "#{file}#{extension}")].first
+        # Convert extension to its dynamic equivalent, e.g., js => coffee
+        # TODO: 'css' always returns sass, not sure how to get less
+        formats = Sinatra::AssetPack.tilt_formats
+        if formats.key( extension )
+          extension = formats.key( extension )
+        end
+
+        Dir[File.join(app.root, from, "#{file}.#{extension}")].first
       end
 
       # Writes `public/#{path}` based on contents of `output`.
