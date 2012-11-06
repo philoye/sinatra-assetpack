@@ -3,6 +3,7 @@ require File.expand_path('../test_helper', __FILE__)
 class HelpersTest < UnitTest
   Main.get('/helper/foo') { img '/images/foo.jpg' }
   Main.get('/helper/email') { img '/images/email.png' }
+  Main.get('/helper/email_path') { asset_path '/images/email.png' }
   Main.get('/helper/css/all') { css :application, :sq }
   Main.get('/helper/css/app') { css :application }
   Main.get('/helper/css/sq') { css :sq }
@@ -17,6 +18,11 @@ class HelpersTest < UnitTest
     assert body =~ %r{src='/images/email.[0-9]+.png'}
     assert body =~ %r{width='16'}
     assert body =~ %r{height='16'}
+  end
+
+  test "asset path existing" do
+    get '/helper/email_path'
+    assert body =~ %r{/images/email.[0-9]+.png}
   end
 
   test "css" do
