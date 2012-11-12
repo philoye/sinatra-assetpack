@@ -3,7 +3,7 @@ require File.expand_path('../test_helper', __FILE__)
 class HelpersTest < UnitTest
   Main.get('/helper/foo') { img '/images/foo.jpg' }
   Main.get('/helper/email') { img '/images/email.png' }
-  Main.get('/helper/email_path') { asset_path '/images/email.png' }
+  Main.get('/helper/email_path') { img_asset_path '/images/email.png' }
   Main.get('/helper/css/all') { css :application, :sq }
   Main.get('/helper/css/app') { css :application }
   Main.get('/helper/css/sq') { css :sq }
