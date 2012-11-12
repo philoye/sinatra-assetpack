@@ -57,7 +57,7 @@ module Sinatra
         settings.assets.dyn_local_file_for file, from
       end
 
-      def asset_path(src)
+      def img_asset_path(src)
         local = settings.assets.local_file_for src
         return src unless local
         BusterHelpers.add_cache_buster(src, local)
