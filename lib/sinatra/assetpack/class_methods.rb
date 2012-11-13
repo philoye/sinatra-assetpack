@@ -35,7 +35,7 @@ module Sinatra
             end
 
             content_type package.type
-            last_modified mtime
+            last_modified Time.at(mtime)
             contents
           end
         end
@@ -55,7 +55,7 @@ module Sinatra
 
             # Send headers
             content_type fmt.to_sym
-            last_modified File.mtime(fn).to_i
+            last_modified Time.at(File.mtime(fn).to_i)
 
             if settings.assets.expires.nil?
               expires 86400*30, :public
